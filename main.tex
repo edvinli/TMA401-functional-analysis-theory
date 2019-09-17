@@ -1,0 +1,934 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[swedish, english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{units}
+\usepackage{icomma}
+\usepackage{color}
+\usepackage{float}
+%\usepackage{amsfonts} %not in use
+\usepackage{cancel}
+\usepackage{graphicx}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage{textcomp}
+\usepackage{alltt}
+\usepackage{datetime}
+\usepackage[top=1.5in, bottom=1.5in, left=1.2in, right=1.2in]{geometry}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{hyperref} \hypersetup{ colorlinks=true,linktoc=all, linkcolor=blue}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy} 
+\fancyhead{} % clear all header fields
+\fancyhead[L]{\normalfont\scshape\small \selectfont E. Listo Zec \& R. Andersson}
+\fancyhead[R]{\normalfont\scshape\small \selectfont Chalmers}
+\newcommand{\N}{\ensuremath{\mathbbm{N}}}
+\newcommand{\Z}{\ensuremath{\mathbbm{Z}}}
+\newcommand{\Q}{\ensuremath{\mathbbm{Q}}}
+\newcommand{\R}{\ensuremath{\mathbbm{R}}}
+\newcommand{\C}{\ensuremath{\mathbbm{C}}}
+\newcommand{\rd}{\ensuremath{\mathrm{d}}}
+\newcommand{\id}{\ensuremath{\,\rd}}
+% % command below makes a bold x, v and a
+% % used for vector notation.
+\newcommand{\xb}{\ensuremath{\mathbf{x}}}
+\newcommand{\ab}{\ensuremath{\mathbf{a}}}
+\newcommand{\vb}{\ensuremath{\mathbf{v}}}
+%% http://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics
+
+%% //ROBIN: ADDED CODE BELOW 2014-12-08, TO SUPPORT FOR MATLAB CODE
+%% TO INPUT MATLAB CODE INPUT: \lstinputlisting[language=matlab]{source_filename.m}
+\usepackage{listings}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{delfin}{Definition}[section]
+
+
+\title{Theorems in functional analysis}
+\author{By Edvin Listo Zec  \and  Robin Andersson}
+\date{Autumn 2015}
+
+\begin{document}
+\maketitle
+\selectlanguage{english}
+\thispagestyle{empty}
+\centerline{\textbf{Introduction}}
+\noindent This text is written as an aid for those that are taking the course TMA401 Functional Analysis the year of 2015. It contains the recommended theorems and proofs from the year 2015, mainly from the lecture notes but also from the book Introduction to Hilbert spaces by Debnath and Mikusinski. If you find errors feel or misprints free to contact SNF.
+
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+
+\section{Hölder's inequality}
+\begin{theorem}
+Let $p,\,q>1$ and $\frac{1}{p}+\frac{1}{q}=1$. If $(x_k)\in l^p$ and $(y_k)\in l^q$, then
+\[
+    \sum_{k=1}^\infty|x_ky_k|\leq \left(\sum_{k=1}^\infty|x_k|^p\right)^\frac{1}{p}\left(\sum_{k=1}^\infty|y_k|^q\right)^\frac{1}{q}\,.
+\]
+\end{theorem}
+\begin{proof}
+Without loss of generality we assume that $\sum_{k=1}^\infty |x_k|\neq 0$ and $\sum_{k=1}^\infty|y_k|\neq 0$. Consider
+\[
+    x^\frac{1}{p}\leq\dfrac{1}{p}x+\dfrac{1}{q}\,,\quad 0\leq x \leq 1\,.
+\]
+Now, let $a$ and $b$ be non-negative numbers such that $a^p\leq b^q$. Then $0\leq a^p/b^q\leq 1$, hence
+\[
+    ab^{-\frac{q}{p}}\leq\dfrac{1}{p}\dfrac{a^p}{b^q}+\dfrac{1}{q}\,.
+\]
+Also, since $-q/p=1-q$, and multiplying both sides with $b^q$ we obtain
+\begin{equation}
+\label{holder}
+ab\leq \dfrac{a^p}{p}+\dfrac{b^q}{q}\,.
+\end{equation}
+We have proved \eqref{holder} assuming $a^p\leq b^q$. Similarily we see that \eqref{holder} holds for $b^q\leq a^p$. Therefore it holds for any $a,\,b\geq 0$. Now let
+\[
+    a=\dfrac{|x_j|}{\left(\sum_{k=1}^n|x_k|^p \right)^\frac{1}{p}}\,,\quad  b=\dfrac{|y_j|}{\left(\sum_{k=1}^n|y_k|^q \right)^\frac{1}{q}}\,,\;n\in\N\,.
+\]
+Together with equation \eqref{holder} we now obtain
+\[
+    \dfrac{|x_j|}{\left(\sum_{k=1}^n|x_k|^p \right)^\frac{1}{p}}\dfrac{|y_j|}{\left(\sum_{k=1}^n|y_k|^q \right)^\frac{1}{q}}\leq \dfrac{1}{p}\dfrac{|x_j|^p}{\left(\sum_{k=1}^n|x_k|^p \right)}+\dfrac{1}{q}\dfrac{|y_j|^q}{\left(\sum_{k=1}^n|y_k|^q \right)}\,,
+\]
+for any $1\leq j\leq n$. By adding these inequalities for $j=1,\,...,\,n,$ we get
+\[
+    \dfrac{\sum_{j=1}^n|x_j||y_j|}{\left(\sum_{k=1}^n|x_k|^p \right)^\frac{1}{p}\left(\sum_{k=1}^n|y_k|^q \right)^\frac{1}{q}}\leq\dfrac{1}{p}+\dfrac{1}{q}=1\,,
+\]
+and letting $n\to\infty$, we get Hölder's inequality.
+\end{proof}
+\section{Theorem of completeness of a normed space}
+\begin{theorem}
+A normed space is complete if and only if every absolutely convergent series converges.
+\end{theorem}
+\begin{proof}
+$[\Rightarrow]$ Let $E$ be a Banach space and suppose $x_n\in E$ such that $\sum_{n=1}^\infty ||x_n||<\infty.$ We define
+\begin{equation*}
+s_n = x_1 + \dots + x_n,\quad n=1,2,\dots
+\end{equation*}
+We'll show that $(s_n)$ is a Cauchy sequence. Let $\varepsilon>0$ and $k$ be a positive integer such that
+\begin{equation*}
+\sum_{n=k+1}^\infty ||x_n|| < \varepsilon.
+\end{equation*}
+Then we have for every $m>n>k$ that
+\begin{equation*}
+||s_m - s_n|| = ||x_{n+1} + \dots + x_m|| \leq \sum_{r=n+1}^\infty ||x_r|| < \varepsilon.
+\end{equation*}
+Thus $(s_n)$ is a Cauchy sequence in $E$. $E$ is complete, thus $(s_n)$ converges in $E$ and therefore $\sum_{n=1}^\infty x_n$ converges aswell.
+\\\\
+$[\Leftarrow]$ We will now prove the left implication. Assume that $E$ is a normed space in which every absolutely convergent series converges. We want to prove that $E$ is complete. Let $(x_n)$ be a Cauchy sequence in $E$. Then, for every $k\in\N\; \exists\; p_k \in \N : $
+\begin{equation*}
+||x_m - x_n|| < \frac{1}{2^k}, \quad \forall\; m,n \geq p_k.
+\end{equation*}
+Without loss of generality we can assume that the sequence $(p_n)$ is strictly increasing. Since $\sum_{k=1}^\infty (x_{p_{k+1}} - x_{p_k})$ is absolutely convergent, it is convergent. This means that
+\begin{equation*}
+x_{p_k} = x_{p_1} + (x_{p_2} - x_{p_1}) + \dots + (x_{p_k} - x_{p_{k-1}})
+\end{equation*}
+converges to an element $x\in E$. Thus
+\begin{equation*}
+||x_n - x|| \leq || x_n - x_{p_n} || + ||x_{p_n} - x|| \to 0,
+\end{equation*}
+since $(x_n)$ is a Cauchy sequence. This completes the proof.
+\end{proof}
+
+\section{Banach-Steinhaus theorem}
+\begin{theorem}[Banach-Steinhaus theorem]
+Assume that $(E_1,\,\|\cdot\|_1)$ is a Banach space and $(E_2,\,\|\cdot\|_2)$ a normed space. Let $\mathcal{F}$ be a family of bounded linear mappings $\mathcal{F}\subset B(E_1,\,E_2)$ where $\underset{T\in\mathcal{F}}{\operatorname{sup}}\|T(x)\|_2<\infty$ for all $x\in E_1$, then
+\begin{equation}
+\underset{T\in\mathcal{F}}{\operatorname{sup}}\|T\|<\infty.
+\label{banach-steinhaus0}
+\end{equation}
+\end{theorem}
+\begin{proof}
+We prove this theorem by dividing the proof into two steps. \\\\
+\textbf{Step 1}: Assume 
+\begin{equation}
+\exists x_0\in E_1,\,\exists r>0,\, \exists M>0\;\forall x\in\overline{B(x_0,\,r)}\;\forall T\in\mathcal{F}:\|T(x)\|_2\leq M\,.
+\label{banach-steinhaus1}
+\end{equation}
+We note that $\|T(\underbrace{x_0+x}_{\in B(x_0, r)})\|_2\leq M$ for $\|x\|_1\leq r$. Further, for $\|x\|_1\leq r$, and using the fact that $T$ is linear, we get
+\[
+    \|T(x)\|_2=\|T(x_0+x-x_0)\|_2=\|T(x_0+x)-T(x_0)\|_2\leq
+\]
+\[
+    \leq \|{T(\underbrace{x_0+x}_{\in{B(x_0,\,r)}})\|_2+\|}T(\hspace{-12pt}\underbrace{x_0}_{\in B(x_0,\,r)}\hspace{-12pt}) \|_2\leq 2M\,.
+\]
+For $\mathbf{0}\neq x\in E_1$, then
+
+
+\[
+\|T\left(\frac{r}{\|x\|_1}x \right) \|_2\leq 2M \Leftrightarrow \frac{r}{\|x\|_1}\|T(x)\|_2 \leq 2M,
+\]
+since $T$ is linear. Thus
+
+\[
+\|T(x)\|_2\leq \underbrace{\dfrac{2M}{r}}_{\geq ||T||}\|x\|_1\;\forall T\in\mathcal{F}\;\forall\; x\in E_1\,.
+\]
+So,
+\[
+    \underset{T\in\mathcal{F}}{\operatorname{sup}}{\|T\|}\leq \dfrac{2M}{r}<\infty\,.
+\]
+\textbf{Step 2: }Now we justify our assumption in equation \eqref{banach-steinhaus1} above. Assume \eqref{banach-steinhaus1} is false, i.e.
+\[
+    \neg (\exists x_0\in E_1\exists r>0\exists M>0\forall x\in\overline{B(x_0,\,r)}\forall T\in\mathcal{F}:\|T(x)\|_2\leq M)\,.
+\]
+That is,
+\begin{equation}
+    \forall x_0\in E_1\forall r>0\forall M>0\exists x\in\overline{B(x_0,\,r)}\exists T\in\mathcal{F}:\|T(x)\|_2>M\,.
+\label{banach-steinhaus2}
+\end{equation}
+Our main idea now is to find a sequence $(x_n)_{n=1}^\infty\in E_1$ such that $x_n\to x$ in $E_1$, and a sequence $(T_n)_{n=1}^\infty\in\mathcal{F}$ (such that $\|T_n(x_n)\|_2>n$ and also $\|T_n(x)\|_2>n$), such that
+\[
+    \lim_{n\to\infty} \|T_n(x)\|_2=\infty\,.
+\]
+This would in turn contradict our hypothesis in equation \eqref{banach-steinhaus0}, so the conclusion then is that \eqref{banach-steinhaus1} holds.
+\\\\
+Now from \eqref{banach-steinhaus2}, it follows that
+\[
+    \exists x_1\in B(\mathbf{0},\,1)\text{ and }T_1\in\mathcal{F}:\|T_1(x_1)\|_2>1\,.
+\]
+$T_1$ is continuous, thus
+\[
+    \exists r_1:0<r_1<\dfrac{1}{2}:\|T_1(x)\|_2>1\forall x\in \overline{B(x_1,\,r_1)}\subset B(\mathbf{0},\,1)\,.
+\]
+Again, from \eqref{banach-steinhaus2}, it follows that
+\[
+    \exists x_2\in B(x_1,\,r_1)\text{ and }T_2\in\mathcal{F}:\|T_2(x_2)\|_2>2\,.
+\]
+Furthermore, since $T_2$ is continuous this implies that
+\[
+    \exists r_2:0<r_2<\left(\dfrac{1}{2}\right)^2:\|T_2(x)\|_2>2\forall x\in \overline{B(x_2,\,r_2)}\subset B(x_1,\,r_1)\,.
+\]
+Proceed inductively, then we have for every positive integer $n$
+\[
+    \exists x_n\in B(x_{n-1},\,r_{n-1})\text{ and }T_n\in\mathcal{F}:\|T_n(x_n)\|_2>n\,.
+\]
+Again, since $T_n$ is continuous, we have that
+\[
+    \exists r_n:0<r_n<\left(\dfrac{1}{2}\right)^n:\|T_n(x)\|_2>n\;\forall \;x\in \overline{B(x_n,\,r_n)}\subset B(x_{n-1},\,r_{n-1})\,.
+\]
+\textbf{Claim:} $(x_n)_{n=1}^\infty$ is a Cauchy sequence in $(E_1,\,\|\cdot\|_1)$, since for any $n>m$,
+\[
+    \|x_n-x_m\|_1<r_m<\left(\dfrac{1}{2}\right)^m\underset{m\to\infty}{\longrightarrow}0\,.
+\]
+Recall that $(E_1,\,\|\cdot\|)$ is a Banach space. Hence $x_n\to x$ in $E_1$ for some $x\in E_1$. Here $x\in\overline{B(x_n,\,r_n)}$ and $\|T_n(x)\|_2\geq n \; \forall \, n$. This implies that $\sup_n\|T_n(x)\|_2=\infty$, in particular
+\[
+    \underset{T\in\mathcal{F}}{\operatorname{sup}}\|T(x)\|_2=\infty\,,
+\]
+which is a contradiction. Thus \eqref{banach-steinhaus1} is true and the proof is done.
+\end{proof}
+
+\section{Banach fixed point theorem}
+\begin{delfin}
+Let $F$ be a closed subset of a Banach space $X$, and let $T$ be an operator such that $T : F \to F$ in $X$. If for all $x,\,y\in F$ we have that $||T(x)-T(y)|| \leq \theta ||x-y||$ for $\theta<1$, then we call $T$ a \textbf{contraction}. 
+\end{delfin}
+\begin{theorem}
+Let $T : F \to F$ be a contraction on a closed set $F\subset X$, where $X$ is a Banach space. Then $T$ has a unique fixed point in $F$.
+\end{theorem}
+\begin{proof}
+Take $x_0\in F\subset X$ arbitrarily. Consider the successive approximations $x_{n+1} = T(x_n)$ for $\{x_n\}_{n=0}^\infty$. Then we have from the definition of a contraction that
+\begin{equation*}
+\begin{split}
+||x_{n+1}-x_n|| &= ||T(x_n) - T(x_{n-1})|| \leq \theta || x_n - x_{n-1}|| =  \theta ||T(x_{n-1}) - T(x_{n-2})|| \leq \\
+&\leq \theta^2 ||x_{n-1}-x_{n-2}|| \leq \dots \leq \theta^n ||x_1 - x_0||.
+\end{split}
+\end{equation*}
+We claim that $\{x_n\}_{n=0}^\infty$ is a Cauchy sequence in $X$. We prove this claim by taking $m>n$:
+\begin{equation*}
+\begin{split}
+||x_m-x_n|| &= ||x_m \underbrace{-x_{m-1}-x_{m-2}+x_{m-2}+x_{m-1}}_{=0} - x_n|| \leq \\
+&\leq ||x_m-x_{m-1}|| + \dots + ||x_{n+1}-x_n|| \leq \\
+& \leq \theta^n (1+\theta + \dots + \theta^{m-n-1})||x_1-x_0|| \leq \\
+& \leq \frac{\theta^n}{1-\theta}\|x_1-x_0\| \to 0, \text{ as } n \to \infty,
+\end{split}
+\end{equation*}
+since $\theta<1$. Hence, $\{x_n\}\subset F$ is a Cauchy sequence and converges to some $\overline{x}\in F$, since $F$ is a closed subset of a Banach space.
+\\\\
+Hence, we have that
+\begin{equation*}
+||T(\overline{x})-\overline{x}|| \to 0 \text{ as } n\to\infty \Rightarrow ||T(\overline{x})-\overline{x}|| \equiv 0.
+\end{equation*}
+We have thus shown the existence of a fixed point. To show the uniqueness let $y=T(y),\, x=T(x)$ for $x,y\in F$ (different fixed points). Thus
+\begin{equation*}
+||x-y|| = ||T(x)-T(y)||\leq \theta ||x-y|| \Rightarrow ||x-y||=0 \Rightarrow x = y,
+\end{equation*}
+which means that $x$ and $y$ are the same fixed points and thus the proof is complete.
+\end{proof}
+
+\begin{theorem}
+Let $T$ be a mapping on a Banach space $X$ such that $T^N$ is a contraction on $X$ for some positive integer $N$. Then $T$ has a unique fixed point.
+\\\\
+Note: it is not necessary to assume that $T$ is continuous.
+\end{theorem}
+
+\begin{proof}
+We use Banach's fixed point theoerem that implies that $\exists$ a unique fixed point $x_0$ for $T^N$. Thus
+\begin{equation*}
+||T(x_0) - x_0|| = ||T^N(T(x_0)) - T^N(x_0)|| \leq c||T(x_0)-x_0)||.
+\end{equation*}
+This implies that $T(x_0) = x_0$ since $0<c<1$. The uniqueness follows from the fact that a fixed point for $T$ is also a fixed point for $T^N$.
+\end{proof}
+
+\section{Weakly convergent sequences in Hilbert spaces}
+\begin{theorem}
+Let $(E,\,\langle\cdot,\,\cdot\rangle)$ be a Hilbert space, and let $(x_n)$ weakly converge to $x$, i.e. $x_n\overset{w}{\to} x$  in $(E,\,\langle\cdot,\,\cdot\rangle)$. Then
+\[
+    \underset{n}{\operatorname{sup}}\|x_n\|<\infty\,.
+\]
+\end{theorem}
+\begin{proof}
+To prove this theorem we want to use Banach-Steinhaus theorem. Let
+\begin{equation*}
+f_n:E\to\C, \;\; n\in\N,
+\end{equation*}
+where $f_n(y)=\langle y,\,x_n\rangle$ for all $y\in E$. We begin by proving that $f_n$ is a bounded linear mapping, and then that the supremum of $|f_n(y)|$ is finite. Linearity follows from
+\[
+    f_n(\alpha_1y_1+\alpha_2y_2)=\langle\alpha_1y_1+\alpha_2y_2,\,x_n\rangle=\alpha_1\langle y_1,\,x_n\rangle+\alpha_2\langle y_2,\,x_n\rangle,
+\]
+for all $\alpha_1,\,\alpha_2\in\C$ and all $y_1,\,y_2\in E\,.$
+Also, $f_n$ is a bounded linear mapping since
+\[
+    |f_n(y)|=|\langle y,\,x_n\rangle|\underbrace{\leq}_{\text{C.S}} \|x_n\|\cdot\|y\|\forall y \in E\,,
+\]
+Hence $f_n$ is bounded and $\|f_n\|\leq \|x_n\|$. But,
+\[
+    f_n(x_n)=\langle x_n,\,x_n\rangle=\|x_n\|^2\Rightarrow \|f_n\|\geq \|x_n\|\,,
+\]
+hence we conclude from the last two results that $\|f_n\|=\|x_n\|$. 
+\\\\
+Moreover, $(E,\,\|\cdot\|)$ is a Banach space since $(E,\,\langle\cdot,\,\cdot\rangle)$ is a Hilbert space. So, set $\mathcal{F}=\{f_n,\,n\in\N\}\subset\mathcal{B}(E,\,\C)$. We claim that
+\[
+    \underset{n}{\operatorname{sup}}|f_n(y)|<\infty\;\;\forall y\in E\,.
+\]
+We see that
+\[
+     \underset{n}{\operatorname{sup}}|f_n(y)|= \underset{n}{\operatorname{sup}}|\langle y,\,x_n\rangle|<\infty\,,
+\]
+since $\langle y,\,x_n\rangle\to\langle y,\,x\rangle$ in $(\C,\,|\cdot|)$, since $x_n\overset{w}{\to}x$ in $(E,\,\langle\cdot,\,\cdot\rangle)$.
+\\\\
+Banach-Steinhaus theorem implies that $ \underset{n}{\operatorname{sup}}\|f_n\|<\infty$ i.e. $ \underset{n}{\operatorname{sup}}\|x_n\|<\infty$.
+\end{proof}
+\section{Closest point property}
+\begin{theorem}[Closest point property]
+Let $(E,\,\langle\cdot,\,\cdot\rangle)$ be a Hilbert space, and let $F\subset E$ be a closed and convex set. Then, for every $x\in E$
+\[
+    \exists! y\in F:\|x-y\|\leq \|x-v\|\;\forall v\in F\,.
+\]
+\end{theorem}
+\begin{proof}
+Case 1: If $x\in F$ then $y=x$ and we are done.
+\\\\
+Case 2: $x\not\in F$. Set $d=\underset{v\in F}{\operatorname{inf}}\|x-v\|$, clearly $d>0$ since $F$ is closed. Now pick a sequence $(v_n)_{n=1}^\infty\in F:\|x-v_n\|\underset{n\to\infty}{\longrightarrow}d$. We claim that $(v_n)_{n=1}^\infty$ is a Cauchy sequence in $(E,\,\|\cdot\|)$. Note that $(E,\,\|\cdot\|)$ is a Banach space, thus $\|\cdot\|$ satisfies the parallelogram law, we have
+\[
+    \underbrace{\|v_n-v_m\|^2}_{=\|(x-v_n)-(x-v_m)\|^2}+\underbrace{\|(x-v_n)+(x-v_m)\|^2}_{=\|2(x-\frac{1}{2}(v_n+v_m))\|^2}=2(\|x-v_n\|^2+\|x-v_m\|^2)\,.
+\]
+So
+\begin{equation}
+0\leq\|v_n-v_m\|^2=2(\underbrace{\|x-v_n\|^2}_{\underset{n\to\infty}{\longrightarrow}d^2}+\underbrace{\|x-v_m\|^2}_{\underset{n\to\infty}{\longrightarrow}d^2})-2^2\underbrace{\|x-\overbrace{\frac{1}{2}(v_n+v_m)}^{\in F \text{ since $F$ convex }}\|^2}_{\geq d^2\text{ by def. of }d}\underset{n,\,m\to\infty}{\longrightarrow}0\,.
+\label{closestpoint1}
+\end{equation}
+Hence $\|v_n-v_m\|\to 0$ as $n,\,m\to\infty$. Now since $(E,\,\|\cdot\|)$ is a Hilbert space, $(v_n)_{n=1}^\infty$ converges in $(E,\,\|\cdot\|)$, let $y=\lim_{n\to\infty} v_n$. Remember that $v_n\in F\;\forall n$ and $F$ is closed, which implies that $y\in F$. We have that
+\[
+    \|x-y\|=\|\lim_{n\to\infty}(x-v_n)\|=\lim_{n\to\infty}\|x-v_n\|=d\,.
+\]
+Thus $\|x-y\|\leq\|x-v\|$ for all $v\in F$. We have now proved the existence and it remains to prove the uniqueness.
+\\\\
+Assume $\|x-y\|=\|x-\overset{\sim}{y}\|=d$ where $y,\,\overset{\sim}{y}\in F$. Want to show that $y=\overset{\sim}{y}$. From the parallelogram law for $\|\cdot\|$ (see \eqref{closestpoint1} above) we obtain
+\[
+    0\leq\|y-\overset{\sim}{y}\|^2=2(\underbrace{\|x-y\|^2}_{=d^2}+\underbrace{\|x-\overset{\sim}{y}\|^2}_{=d^2})-4\underbrace{\|x-\frac{1}{2}(y+\overset{\sim}{y})\|^2}_{\geq d^2}\Rightarrow \|y-\overset{\sim}{y}\|=0\,.
+\]
+\end{proof}
+
+\section{Orthogonal projection theorem}
+\begin{theorem}
+Let $(E,\langle\cdot,\cdot\rangle)$ be a Hilbert space. Let $S$ be a closed subspace in $(E,||\cdot||)$. Then it holds that $E=S\oplus S^{\perp}$, i.e. that
+\begin{equation*}
+\forall x \in E \; \exists ! \; y\in S, z\in S^{\perp} : x=y+z.
+\end{equation*}
+\end{theorem}
+
+\begin{proof}
+We start by proving the existence. We note that $S$ is closed and convex in $E$. Thus we apply the closest point property theorem. Fix $x\in E$. Then
+\begin{equation*}
+\exists \;y \in S : ||x-y||\leq ||x-v||\;\; \forall v \in S.
+\end{equation*}
+Now $x = \underbrace{y}_{\in S} + (x-y)$. We want to prove that $x-y \in S^{\perp}$, i.e. that $\langle x-y, v \rangle = 0$. Fix $v\in S$. We make a proof by contradiction. Assume that $\langle x-y, v\rangle\neq 0$. We know that
+\begin{equation*}
+||x-y||^2 \leq ||\underbrace{x-y+\alpha v}_{\in S}||^ 2 \;\; \forall \alpha \in \C.
+\end{equation*}
+So
+\begin{equation*}
+\begin{split}
+||x-y||^2 &\leq \langle x-y+ \alpha v, x-y + \alpha v\rangle = ||x-y||^2 + \bar{\alpha}\langle x-y, v\rangle + \alpha \langle v, x-y \rangle + \alpha \bar{\alpha} ||v||^ 2 = \\
+&= ||x-y||^2 + 2\operatorname{Re}\big(\bar{\alpha}\langle x-y, v\rangle\big) + |\alpha|^2 ||v||^2,
+\end{split}
+\end{equation*}
+i.e.
+\begin{equation*}
+0\leq 2\operatorname{Re}\big(\bar{\alpha}\langle x-y, v\rangle\big) + |\alpha|^2 ||v||^2 \;\; \forall \alpha \in \C.
+\end{equation*}
+Choose $\alpha = te^{i \text{ arg } \langle x-y,v\rangle}, \; t\in\R$. Thus
+\begin{equation*}
+0\leq 2t \big|\langle x-y, v \rangle\big| + t^2 ||v||^2.
+\end{equation*}
+Now set $r=-t$ and consider $r>0$.
+\begin{equation*}
+2r \big| \langle x-y, v \rangle \big | \leq r^2 ||v||^2 \Rightarrow 2\big| \langle x-y,v\rangle \big| \leq r ||v||^2 \underset{r \to 0}{\to} 0.
+\end{equation*}
+Thus $\big| \langle x-y, v \rangle \big| = 0, \; \forall v\in S$, which contradicts the first assumption. So $x-y \in S^{\perp}$, which proves the existence, now we prove the uniqueness.
+\subsubsection*{Uniqueness}
+Fix $x\in E$, assume that $x=y_1+z_1=y_2+z_2$, where $y_1,\,y_2\in S$ and $z_1,\,z_2\in S^\perp$. We get that
+\[
+    \underbrace{y_1-y_2}_{\in S}=\underbrace{z_2-z_1}_{\in S^\perp}\therefore \langle y_1-y_2,\,z_2-z_1\rangle=0\,,
+\]
+but we also know that
+\[
+    \langle y_1-y_2,\,z_2-z_1\rangle=\|y_1-y_2\|^2=0\therefore y_1=y_2\Rightarrow z_1=z_2\,,
+\]
+so uniqueness is proven.
+\end{proof}
+\section{Riesz representation theorem}
+\begin{theorem}
+Let $\big(E,\,\langle \cdot, \cdot\rangle\big)$ be a Hilbert space and let $f : E \to \C$ be linear and bounded. Then
+\begin{equation*}
+\exists! x_f\in E : f(x) = \langle x, x_f \rangle \; \forall x\in E.
+\end{equation*}
+Moreover, $\|f\|_{E\to \C} = \|x_f\|$.
+\end{theorem}
+
+\begin{proof}
+We start with existence. If $f(x) = 0\;\forall x\in E$, then $x_f = 0$. Assume $0\neq f \in \mathcal{B}(E,\,\C)$ and let $M=\{x\in E : f(x) = 0\}$. We claim that $M$ is a closed subspace of $(E,\,\|\cdot\|)$. 
+\\\\
+We have that $M\subset E$ since, for $x_1, x_2\in M$ and $\alpha_1, \alpha_2 \in \C$ it holds that due to linearity of $f$
+\begin{equation*}
+f(\alpha_1 x_1 + \alpha_2 x_2) = \alpha_1 \underbrace{f(x_1)}_{=0} + \alpha_2 \underbrace{f(x_2)}_{=0} = 0\,,
+\end{equation*}
+thus $\alpha_1 x_1 + \alpha_2 x_2 \in M$. 
+
+\noindent $M$ is closed: $M\ni x_n \to x$ in $(E, \| \cdot \|)$. We have that $f\in\mathcal{B}(E, \C)$ so $f: E \to \C$ is continuous, which gives us that
+\begin{equation*}
+0 = f(x_n) \to f(x) \quad \text{in } (\C, |\cdot|)
+\end{equation*}
+Thus $f(x) = 0$, i.e. $x\in M$. So, $M$ is a closed subspace of a Hilbert space $E$. The orthogonal projection theorem then says that $E = M \oplus M^\perp$. From assumption $f\neq 0$ so $E\neq M$. 
+\\\\
+Pick $z = M^\perp \backslash \{0\}$ and consider $f(z)x - f(x)z$ for $x\in E$. Note that
+\begin{equation*}
+f\big(f(z)x - f(x)z\big) = f(z)f(x) -f(x)f(z) = 0.
+\end{equation*}
+So $f(z)x-f(x)z \in M\;\forall x\in E$. Thus
+\begin{equation*}
+\langle \underbrace{f(z)x - f(x)z}_{\in M}, \underbrace{z}_{\in M^\perp}\rangle = 0\,,
+\end{equation*}
+which gives us $f(z)\langle x, z\rangle = f(x) \hspace{-7pt}\underbrace{\langle z,\,z\rangle}_{=\|z\|^2 > 0}\hspace{-5pt}$. So
+\begin{equation*}
+f(x) = \langle x, \dfrac{\overline{f(z)}}{\|z\|^2}z \rangle \;\; \forall x\in E.
+\end{equation*}
+Now set $x_f = \dfrac{\overline{f(z)}}{\|z\|^2}z \in E$ and we are done.
+\\\\
+We now prove the uniqueness. Assume $f(x) = \langle x, x_f \rangle = \langle x, \tilde{x}_f\rangle$. Then $\langle x, x_f - \tilde{x}_f\rangle = 0 \;\; \forall x\in E$. Choose $x=x_f - \tilde{x}_f$. Then $\| x_f - \tilde{x}_f \|^2 = 0$, i.e. $x_f = \tilde{x}_f$. The proof is done.
+\end{proof}
+
+
+\section{Lax-Milgram Theorem}
+
+\begin{enumerate}
+\item Bilinear: $\varphi(u,v)$ satisfies the same properties as scalar products, however it does not need to be symmetric.
+\item Bounded: $|\varphi(u,v)| \leq \beta ||u|| \; ||v||$, $\beta>0$ constant.
+\item Coercive (elliptic): $\varphi(v,v) \geq \alpha ||v||^2,$ $\alpha>0$ constant.
+\end{enumerate}
+
+\begin{theorem}
+Let $(E,\,\langle\cdot,\,\cdot\rangle)$ be a Hilbert space. Also, let $\phi:E\times E\to\C$ be a bilinear, bounded and coercive functional, and let $f:E\to\C$ be a bounded linear functional. Then
+\[
+    \exists!\overset{\sim}{x}_f\in E:f(x)=\phi(x,\,\overset{\sim}{x}_f)\forall x\in E\,.
+\]
+\end{theorem}
+\begin{proof}
+We divide this proof into three steps, where
+\begin{itemize}
+\item Step 1: $\phi(x,\,y)=\langle x,\,A(y)\rangle\;\;\forall x,\,y\in E\text{ for some }A\in\mathcal{B}(E,\,E)$.
+\item Step 2: $A$ is one-to-one and onto.
+\item Step 3: $f(x)\overset{\text{Riesz}}{=}\langle x,\,x_f\rangle=\{A(\overset{\sim}{x}_f)=x_f\}=\phi(x,\,\overset{\sim}{x}_f)\;\;\forall x\in E$.
+\end{itemize}
+\subsubsection*{Step 1}
+Fix $y\in E$, then $E\ni x\overset{y_\phi}{\mapsto}\phi(x,\,y)\in\C$. We claim that $y_\phi:E\to\C$ is a bounded linear mapping.
+\\\\
+Linearity follows since: $y_\phi(\alpha x+\beta z)=\phi(\alpha x+\beta z,\,y)=\alpha\phi(x,\,y)+\beta\phi(z,\,y)=\alpha y_\phi(x)+\beta y_\phi(z)$ for all scalars $\alpha,\,\beta$ and all $x,\,z\in E$ since $\phi$ is bilinear.
+\\\\
+Boundedness follows since: $|y_\phi(x)|=|\phi(x,\,y)|\leq M\|x\|\|y\|$ for some $M>0$, since $\phi$ is bounded.
+\\\\
+Therefore, by Riesz representation theorem
+\[
+    \exists !A(y)\in E:y_\phi(x)=\langle x,\,A(y)\rangle \forall x\in E\,.
+\]
+Thus, we have that $A:E\to E$. \newline \noindent A is
+\begin{itemize}
+\item linear, since 
+\[
+    \langle x,\,A(\alpha y+\beta z)\rangle = \phi(x,\,\alpha y+\beta z)=\bar{\alpha}\phi(x,\,y)+\bar{\beta}\phi(x,\,z)=
+\]
+\[
+    =\bar{\alpha}\langle x,\, A(y)\rangle +\bar{\beta}\langle x,\,A(z)\rangle=\langle x,\,\alpha A(y)\rangle+\langle x,\,\beta A(z)\rangle\forall \alpha,\,\beta\in\C\forall x,\,y,\,z\in E\,.
+\]
+Move the RHS to the LHS. Hence we obtain $\langle x,\, A(\alpha y+\beta z)-\alpha A(y)-\beta A(z)\rangle=0$. Pick $x= A(\alpha y+\beta z)-\alpha A(y)-\beta A(z)$ and thus we conclude that $A$ is linear.
+\item bounded, since $|\langle x,\, A(y)\rangle|=|\phi(x,\,y)|\leq M\|x\|\|y\|$ for all $x,\,y\in E$. Choose $x=A(y)$, then
+\[
+    |\langle A(y),\,A(y)\rangle|=\|A(y)\|^2\leq M\|A(y)\|\|y\|\Rightarrow \|A(y)\|\leq M\|y\|\forall y\in E\,,
+\]
+thus $A$ is bounded, so $A$ is a bounded linear mapping.
+\end{itemize}
+\subsubsection*{Step 2:}
+We begin by proving that $A$ is one-to-one i.e. if $A(x_1)=A(x_2)$ then $x_1=x_2$. Note that $A(x_1-x_2)=0$ and thus
+\[
+    \|x_1-x_2\|\leq \dfrac{1}{K}\|A(x_1-x_2)\|=0\,,
+\]
+since $\phi$ is coercive. Hence $x_1=x_2$ and $A$ is therefore one-to-one.
+\\\\
+Now we prove that $A$ is onto. Denote the range of $A$ by $\mathcal{R}(A)=\{A(x):x\in E\}$, to prove the ontoness we show that $\mathcal{R}(A)$ is a closed subspace of $E$, and then that $\mathcal{R}(A)=E$.
+\\\\
+Pick $y_1,\,y_2\in \mathcal{R}(A)$ and $\alpha_1,\,\alpha_2\in\C$. Since $y_1\in \mathcal{R}(A)$ there exists $x_1\in E:y_1=A(x_1)$, same follows for $y_2$. Consider $\alpha_1y_1+\alpha_2y_2$, using that $A$ is linear we obtain
+\[
+    \alpha_1y_1+\alpha_2y_2=\alpha_1A(x_1)+\alpha_2A(x_2)=A(\alpha_1x_1+\alpha_2x_2)\in\mathcal{R}(A)\,,
+\]
+hence $\mathcal{R}(A)\subset E$.
+\\\\
+Now we prove that $\mathcal{R}(A)$ is closed. Pick a sequence $\mathcal{R}(A)\ni y_n\to y$ in $E$. We want to prove that $y\in\mathcal{R}(A)$. Pick $(x_n)_{n=1}^\infty:A(x_n)=y_n$ where $n\in\N$. Now we consider $\|x_n-x_m\|$, since $\phi$ is coercive, we know that $\|x\|\leq \|A(x)\|/K$, hence
+\[
+    \|x_n-x_m\|\leq \dfrac{1}{K}\|A(x_n-x_m)\|=\dfrac{1}{K}\|A(x_n)-A(x_m)\|=\dfrac{1}{K}\|y_n-y_m\|\underset{n,\,m\to\infty}{\longrightarrow}0\,,
+\]
+since $y_n\to y$. Therefore, $(x_n)_{n=1}^\infty$ is a Cauchy sequence in $E$ with the norm inherited from the inner product. Further, $(E,\,\|\cdot\|)$ is a Banach space, so $(x_n)_{n=1}^\infty$ converges, let $x_n\to x$. We have $A\in\mathcal{B}(E,\,E)$, so $A$ is continuous, thus $A(x_n)\to A(x)$ in $E$. \newline\noindent Recall that $A(x_n)=y_n\to y$ in $E$, thus $A(x)=y\in\mathcal{R}(A)$ and $\mathcal{R}(A)$ is closed.
+\\\\
+Now it remains to prove that $\mathcal{R}(A)=E$. Assume $\mathcal{R}(A)\neq E$. Then by the orthogonal projection theorem, we can, since $\mathcal{R}(A)\subset E$ is closed, write $E$ as $E=\mathcal{R}(A)\oplus\mathcal{R}(A)^\perp$. Pick $z\in\mathcal{R}(A)^\perp\backslash\{\mathbf{0}\}$. This implies that $\langle z,\,A(x)\rangle=0$ for all $x\in E$. In particular $\langle z,\,A(z)\rangle=0$, however note that $\langle z,\,A(z)\rangle=\phi(z,\,z)$, which is a coercive functional, hence we conclude that $z$ must be the zero-vector, which is contradicts our hypothesis that $\mathcal{R}(A)\neq E$, thus $\mathcal{R}(A)=E$. Therefore $A$ is one-to-one and onto.
+\subsubsection*{Step 3:}
+This step follows directly from what we stated in the beginning, i.e.
+\[
+    f(x)\overset{\text{Riesz}}{=}\langle x,\,x_f\rangle=\{A(\overset{\sim}{x}_f)=x_f\}=\phi(x,\,\overset{\sim}{x}_f)\forall x\in E\,.
+\]
+\end{proof}
+\section{4.4.2: Properties of $A^*$}
+\begin{theorem}
+The adjoint operator $A^*$ of a bounded operator $A$ is bounded. Moreover, we have $\|A\|=\|A^*\|$ and $\|A^*A\|=\|A\|^2$.
+\end{theorem}
+\begin{proof}
+The operator $A^*$ is bounded since $A$ and $A^*$ define the same bilinear functional and is related as $\langle A(x),\,y\rangle=\langle x,\,A^*(y)\rangle$. Note that
+\[
+    |\langle x,\,A^*(y)\rangle|=|\langle A(x),\,y\rangle|\overset{\text{Cauchy-schwarz}}{\leq}\|A(x)\|\|y\|\leq \|A\|\|x\|\|y\|\,.
+\]
+Now we use our human rights and choose $x=A^*(y)$, thus
+\[
+    \|A^*(y)\|^2\leq \|A\|\,\|A^*(y)\|\,\|y\|\Rightarrow \|A^*\|\leq \|A\|\,.
+\]
+Also
+\[
+    \langle A(x),\,y\rangle=\langle x,\,A^*(y)\rangle=\langle\overline{A^*(y),\,x} \rangle=\langle\overline{y,\,(A^*)^*(x)} \rangle=\langle (A^*)^*(x),\,y\rangle\Rightarrow A=(A^*)^*\,.
+\]
+This implies
+\[
+    \|A\|=\|(A^*)^*\|\leq \|A^*\|\leq\|A\|\,,
+\]
+hence the conclusion is that $\|A^*\|=\|A\|\,$. The remaining part of the theorem follows since both $A^*$ and $A$ are bounded operators, and using the fact that $\|A^*\|=\|A\|$, we obtain
+\[
+    \|A^*A\|\leq \|A^*\|\|A\|=\|A\|^2\,.
+\]
+But, we also have
+\[
+    \|Ax\|^2=\langle Ax,\,Ax\rangle=\langle A^*Ax,\,x\rangle\leq \|A^*Ax\|\|x\|\leq \|A^*A\|\|x\|^2\,,
+\]
+thus $\|A^*A\|=\|A\|^2$.
+\end{proof}
+\section{4.4.14: Norm of a self-adjoint operator}
+\begin{theorem}
+Let $T$ be a self-adjoint operator on a Hilbert space $H$. Then
+\[
+    \|T\|=\underset{\|x\|=1}{\operatorname{sup}}|\langle Tx,\,x\rangle|\,.
+\]
+\end{theorem}
+\begin{proof}
+Let $M=\underset{\|x\|=1}{\operatorname{sup}}|\langle Tx,\,x\rangle|$. If $\|x\|=1$ then
+\[
+    |\langle Tx,\,x\rangle|\leq\|Tx\|\|x\|=\|Tx\|\leq\|T\|\|x\|=\|T\|\,.
+\]
+Thus $\|T\|\geq M$. Note that, for all $x,\,z\in H$ we have
+\[
+    \langle T(x+z),\,x+z\rangle-\langle T(x-z),\,x-z\rangle=2(\langle Tx,\,z\rangle+\langle Tz,\,x\rangle)=4\operatorname{Re}\langle Tx,\,z\rangle\,.
+\]
+By using the parallelogram law we obtain
+\begin{equation}
+\operatorname{Re}\langle Tx,\,z\rangle\leq\dfrac{M}{4}(\|x+z\|^2+\|x-z\|^2)=\dfrac{M}{2}(\|x\|^2+\|z\|^2)\,.
+\label{4.4.14}
+\end{equation}
+Now assume $\|x\|=1$ and $Tx\neq 0$. Set $z=Tx/\|Tx\|$, thus
+\[
+    \operatorname{Re}\langle Tx,\,z\rangle=\operatorname{Re}\left\langle Tx,\,\dfrac{Tx}{\|Tx\|}\right\rangle=\|Tx\|\,.
+\]
+Using this $z$ with the identity obtained in \eqref{4.4.14} we get
+\[
+    \operatorname{Re}\langle Tx,\,z\rangle\leq\dfrac{M}{2}\left(\|x\|^2+\left\|\dfrac{Tx}{\|Tx\|}\right\|^2\right)=M\,,
+\]
+hence $\|T\|\leq M$, and from before $\|T\|\geq M$ which implies $\|T\|=M$.
+\end{proof}
+\section{4.8.12: Uniformly convergent sequence of compact operators}
+
+\begin{theorem}
+The limit of a uniformly convergent sequence of compact operators is compact. In other words, if $T_1, T_2, \dots $ are compact on a Hilbert space $H$ and $\|T_n - T\| \to 0$ as $n\to\infty$, then
+\begin{equation*}
+T \text{ is compact}.
+\end{equation*}
+\end{theorem}
+
+\begin{proof}
+Choose $(x_n)_{n=1}^\infty\in H$ bounded. $T_1$ is compact which implies that $\exists$ a subsequence $x_{1,n}$ of $x_n$ such that $(T_1x_{1,n})$ converges. Similarily $(T_2x_{1,n})$ has a convergent subsequence $(T_2x_{2,n})$.
+\\\\
+In general, for $k\geq 2$: let $(x_{k,n})$ be a subsequence of $(x_{k-1, n})$ such that $(T_kx_{k,n})$ is convergent. Consider $(x_{n,n})$ as a subsequence of $(x_n)$. Then $x_{p_n} = x_{n,n}$ where $p_n$ is an increasing sequence of positive integers. Thus $(T_kx_{p_n})$ converges $\forall k\in\N$.
+\\\\
+We will now show that $(Tx_{p_n})$ converges. Let $\varepsilon>0$. We have that 
+\[
+\| T_n - T\|\to 0, n \to\infty \Rightarrow \exists k\in \N : \| T_k - T\| < \dfrac{\varepsilon}{3M},
+\]
+for $\|x_n\|\leq M\; \forall n\in\N$. Thus
+\begin{equation*}
+\| T_kx_{p_n} - T_kx_{p_m}\| < \dfrac{\varepsilon}{3} \; \forall n,m > k_1\in\N.
+\end{equation*}
+This implies
+\begin{equation*}
+\begin{split}
+\| Tx_{p_n} - Tx_{p_m}\| &\leq \| Tx_{p_n} - T_kx_{p_n}\| + \| T_kx_{p_n} - T_kx_{p_m}\| + \|T_kx_{p_m}-Tx_{p_m}\| < \\
+&< \dfrac{\varepsilon}{3}+\dfrac{\varepsilon}{3}+\dfrac{\varepsilon}{3} = \varepsilon,
+\end{split}
+\end{equation*}
+for sufficiently large $n$ and $m$. So $(Tx_{p_n})$ is a Cauchy sequence in $H$ and thus convergent.
+\end{proof}
+\section{4.8.12: Compact operators on weakly convergent sequences converges strongly}
+\begin{theorem}
+An operator $T$ on a Hilbert space $H$ is compact if and only if it maps weakly convergent sequences into strongly convergent sequences. More precisely, $T$ is compact if and only if $x_n\overset{\text{w}}{\to}x$ implies $Tx_n\to Tx$ for any $x_n,\,x\in H$.
+\end{theorem}
+\begin{proof}
+Coming soon.
+\end{proof}
+\section{4.9.8: The operator $(A-\lambda\mathcal{I})^{-1}$ is bounded}
+\begin{theorem}
+If $A$ is a bounded linear operator in a Banach space $E$ and $\|A\|<|\lambda|$, then $A_\lambda=(A-\lambda\mathcal{I})^{-1}$ is a bounded operator. Also
+\[
+    A_\lambda=-\sum_{n=0}^\infty\dfrac{A^n}{\lambda^{n+1}}\,,\qquad \|A_\lambda\|\leq\dfrac{1}{|\lambda|-\|A\|}\,.
+\]
+\end{theorem}
+\begin{proof}
+Since $\|A/\lambda\|<1$ we have
+\[
+    \sum_{n=0}^\infty\left\|\dfrac{A^n}{\lambda^n}\right\|\leq\sum_{n=0}^\infty\left\|\dfrac{A}{\lambda}\right\|^n<\infty\,.
+\]
+Hence, since $\mathcal{B}(E,\,E)$ is complete, there exists an operator $B\in\mathcal{B}(E,\,E)$ such that
+\[
+    B=\sum_{n=0}^\infty\dfrac{A^n}{\lambda^n}\,.
+\]
+Also
+\[
+    (A-\lambda\mathcal{I})B=(A-\lambda\mathcal{I})\left(\sum_{n=0}^\infty\dfrac{A^n}{\lambda^n}\right)=\sum_{n=0}^\infty(A-\lambda\mathcal{I})\dfrac{A^n}{\lambda^n}=
+\]
+\[
+    =\sum_{n=0}^\infty\dfrac{A^{n+1}-\lambda A^n}{\lambda^n}=\lambda\sum_{n=0}^\infty\left (\dfrac{A^{n+1}}{\lambda^{n+1}}-\dfrac{A^n}{\lambda^n}\right)=-\lambda\mathcal{I}\,.
+\]
+In a similar way we obtain $B(A-\lambda\mathcal{I})=-\lambda\mathcal{I}$. Thus
+\[
+    A_\lambda=(A-\lambda\mathcal{I})^{-1}=-\dfrac{B}{\lambda}=-\sum_{n=0}^\infty\dfrac{A^n}{\lambda^{n+1}}\,.
+\]
+Finally
+\[
+    \|A_\lambda\|\leq\dfrac{1}{|\lambda|}\sum_{n=0}^\infty\left\|\dfrac{A}{\lambda}\right\|^n=\dfrac{1}{|\lambda|}\dfrac{1}{1-\|A/\lambda\|}=\dfrac{1}{|\lambda|-\|A\|}\,.
+\]
+\end{proof}
+\section{4.9.12: Norm of operator equal to spectral radius of operator}
+\begin{theorem}
+If $A$ is bounded self-adjoint operator on a Hilbert space $H$, then $r(A)=\|A\|$.
+\end{theorem}
+\begin{proof}
+Rule out the trivial case $A\neq 0$. Since $A$ is a bounded operator we have $r(A)\leq \|A\|$. We want to prove that all eigenvalues of a bounded operator $A$ lie in the closed disk of radius $\|A\|$ centered at the origin. Thus it suffices to show that there exists a $\lambda\in\sigma(A)$ such that $|\lambda|=\|A\|$. However that there exists a $\lambda$ such that $|\lambda|=\|A\|$ follows directly since $A$ is a bounded self-adjoint operator on $H$. However we need to show that $\lambda\in \sigma(A)$. Assume $\lambda\in\rho(A)$ and let $(x_n)_{n=1}^\infty\in H$ such that $\|x_n\|=1$ $\langle Ax_n,\,x_n\rangle\to\lambda$. Then, using the fact that $Ax_n-\lambda x_n\to 0$, and the continuity of $(A-\lambda\mathcal{I})^{-1}$ we obtain
+\[
+    1=\|x_n\|=\|(A-\lambda\mathcal{I})^{-1}(A-\lambda\mathcal{I})x_n\|\underset{n\to\infty}{\longrightarrow}0\,.
+\]
+This is a contradiction, thus $\lambda\in\sigma(A)$.
+\end{proof}
+\section{4.9.16: Operator norm is an eigenvalue to itself}
+\begin{theorem}
+If $A$ is a compact, self-adjoint operator on a Hilbert space, then at least one of the numbers $\|A\|$ or $-\|A\|$ is an eigenvalue of $A$.
+\end{theorem}
+\begin{proof}
+Assume $A\neq 0$, since if this was the case the theorem is trivially true. However note that, since $A$ is a self-adjoint operator on a Hilbert space, we have $\|A\|=\underset{\|x\|=1}{\operatorname{sup}}|\langle Ax,\,x\rangle|$. Thus, there exists a sequence $x_n\in H$ such that $\|x_n\|=1$ and $|\langle Ax_n,\,x\rangle|\to \|A\|$, as $n$ tends to infinity. Now, we may assume $|\lambda|=\|A\|$ and without loss of generality we assume $\langle Ax_n,\,x_n\rangle\to\lambda$. Hence for every $n\in\N$ the following holds,
+\[
+    \|Ax_n-\lambda x_n\|^2=\|Ax_n\|^2-2\lambda\langle Ax_n,\,x_n\rangle+\lambda^2\|x_n\|^2\leq
+\]
+\[
+    \leq \|A\|^2-2\lambda\langle Ax_n,\,x_n\rangle+\lambda^2=2\lambda(\lambda-\langle Ax_n,\,x_n\rangle)\,.
+\]
+from which we conclude $Ax_n-\lambda x_n\to0$, as $n$ tends to infinity. Using the fact that $A$ is compact, there exists a subsequence $x_{n_k}$ of $x_n$ such that $Ax_{n_k}$ converges. Furthermore since $A\neq 0$ it follows from $Ax_n-\lambda x_n\to0$ that $x_{n_k}\to x$ for some $x\in H$. Note that $\|x\|=1$ since $\|x_n\|=1$, for all $n\in\N$. Therefore, from the continuity of $A$ and from $Ax_n-\lambda x_n\to0$ we obtain that $Ax=\lambda x$. 
+\end{proof}
+
+\section{4.9.19: Set of eigenvalues of a compact self-adjoint operator}
+\begin{theorem}
+The set of distinct eigenvalues $(\lambda_n)$ of a compact self-adjoint operator is either finite or countable with $\lim_{n\to\infty}\lambda_n=0$.
+\end{theorem}
+\begin{proof}
+Suppose $A$ is a self-adjoint compact operator that has infinitely many distinct eigenvalues $\lambda_n$, $n\in\N$. Let $u_n$ be an eigenvector corresponding to $\lambda_n$ such that $\|u_n\|=1$. Using the fact that eigenvectors corresponding to distinct eigenvalues of a self-adjoint operator on a Hilbert space are orthogonal, we conclude that $(u_n)$ is an orthonormal sequence. Thus, it converges weakly to $0$. Consequently, since $u_n\overset{\text{w}}{\to}0$ the sequence $(Au_n)$ converges strongly to $0$ and hence
+\[
+    |\lambda_n|=\|\lambda_nu_n\|=\|Au_n\|\underset{n\to\infty}{\longrightarrow}0\,.
+\]
+\end{proof}
+\section{Hilbert-Schmidt theorem}
+\begin{theorem}
+Let $(H,\, \langle\cdot,\,\cdot\rangle)$ be a Hilbert space and $A\in\mathcal{B}(H,\,H)$ a self-adjoint and compact operator. Then there exists an ON-sequence of eigenvectors $(u_n)_{n=1}^N$ with corresponding non-zero eigenvalues $(\lambda_n)_{n=1}^N$ of $A$ ($N$ is either finite or infinite) such that every element $x\in H$ has a unique representation
+\[
+x=\sum_{n=1}^N\lambda_n\langle x,\,u_n\rangle u_n+ v\;\;\forall v\in\mathcal{N}(A)\,.
+\]
+The sequence of eigenvalues are such that $|\lambda_1|\geq|\lambda_2|\geq ...\geq|\lambda_n|\geq...$ and if $N$ is infinite then
+\[
+    \lim_{n\to\infty} \lambda_n=0
+\]
+Moreover $A(x)=\sum_{n=1}^N\lambda_n\langle x,\,u_n\rangle u_n$.
+\end{theorem}
+\begin{proof}
+Assume $A\neq \mathbf{0}$. There exists an eigenvector $u_1:\|u_1\|=1$ corresponding to the eigenvalue $\lambda_1$ of $A$ with $|\lambda_1|=\|A\|$ since $A$ is compact and self-adjoint on $H$. Set $Q_1 =\{x\in H : x\perp u_1\} = \{u_1\}^\perp$, thus $Q_1$ is a closed subspace of $H$. Hence $Q_1$ is a Hilbert space with the same inner product. If $x\in Q_1$ then $Ax\in Q_1$ since
+\[
+    \langle Ax,\,u_1\rangle=\langle x,\,Au_1\rangle=\lambda_1\langle x,\,u_1\rangle=0\,.
+\]
+So $A|_{Q_1}:Q_1\to Q_1$ is self-adjoint and compact. Assume $A|_{Q_1}\neq\mathbf{0}$. Then as above, there exists an eigenvector $u_2:\|u_2\|=1$ with corresponding $\lambda_2$ of $A|_{Q_1}$ such that $|\lambda_2|=\|A|_{Q_1}\|\leq\|A\|$. Set $Q_2=\{u_1,\,u_2\}^\perp$, for same reason as before this is a Hilbert space. Pick $x\in Q_2$, thus $Ax\in Q_2$ since
+\[
+    \langle Ax,\,u_i\rangle=...=\lambda_i\langle x,\,u_i\rangle=0\,.
+\]
+Hence $A|_{Q_2}:Q_2\to Q_2$ is also compact and self-adjoint. Repeatedly this argument holds giving eigenvalues $\lambda_1,\,\lambda_2,\,...,\,\lambda_N$.
+
+\noindent Now consider the two cases where $N<\infty$ and the second case where $N$ is infinite
+\subsubsection*{Case 1:}
+There are eigenvectors $u_1,\,...,\,u_N$ corresponding to non-zero eigenvalues $\lambda_1,\,...,\,\lambda_N$ where $(u_n)_{n=1}^N$ is an ON-sequence and $|\lambda_1|\geq |\lambda_2|\geq...\geq|\lambda_N|>0$ and set
+\[
+    Q_N=\{u_1,\,...,\,u_N\}^\perp\,.
+\]
+Then we have that $A|_{Q_N}=\mathbf{0}$, thus 
+\[
+    x=\sum_{n=1}^N\lambda_n\langle x,\,u_n\rangle u_n+v,\,v\in\mathcal{N}(A)=Q_N\,.
+\]
+\subsubsection*{Case 2:}
+There exists an ON-sequence $(u_n)_{n=1}^\infty$ of eigenvectors corresponding to the eigenvalues $(\lambda_n)_{n=1}^\infty$ of $A$ where $|\lambda_1|\geq |\lambda_2|\geq ...\geq |\lambda_n|\geq ...>0$ for all $n\in\N$. We claim that
+\[
+    \lim_{n\to\infty}\lambda_n=0\,.
+\]
+Note that since $(u_n)_{n=1}^\infty$ is an ON-sequence it converges weakly to zero in $H$. Furthermore, $A$ is compact hence $Au_n\to A(\mathbf{0})=\mathbf{0}$ in $H$, thus
+\[
+    |\lambda_n|=\|\lambda_n u_n\|=\|Au_n\|\underset{n\to\infty}{\longrightarrow}0\therefore\lim_{n\to\infty}\lambda_n=0\,.
+\]
+Set $S=\overline{\operatorname{Span}\{u_1,\,u_2,\,...\}}=\{\sum_{n=1}^\infty\alpha_nu_n:(\alpha_n)_{n=1}^\infty\in\ell^2\}$, note that $S$ is a closed subspace of $H$. Pick $x\in H$, then
+\[
+    x=\underbrace{\sum_{n=1}^\infty\langle x,\,u_n\rangle}_{\in S} u_n+\underbrace{v}_{\in S^\perp}\,.
+\]
+We want to show that $A(v)=0$. For $v\neq 0$ let $w=\frac{v}{\|v\|}$ where $\|w\|=1$, thus
+\[
+    \langle Av,\,v\rangle=\|v\|^2\langle Aw,\,w\rangle\,,
+\]
+Here $S^\perp\subset Q_n=\{u_1,\,...,\,u_n\}^\perp\forall n \in\N$, so
+\[
+    |\lambda_{n+1}|=\|A|_{Q_n}\|=\underset{\underset{z\in Q_n}{\|z\|=1}}{\operatorname{sup}}|\langle Az,\,z\rangle |\geq \dfrac{1}{\|v\|^2}\langle Av,\,v\rangle\,.
+\]
+Let $n\to\infty$, which implies $\langle Av,\,v\rangle\to 0$ for all $v\in S^\perp$. Hence $\langle Av,\,v\rangle=0$ for all $v\in S^\perp$, thus
+\[
+    \|A|_{S^\perp}\|=\underset{\underset{v\in S^\perp}{\|v\|=1}}{\operatorname{sup}}|\langle Av,\,v\rangle |
+\]
+\end{proof}
+
+\section{Spectral theorem for compact self-adjoint operators}
+\begin{theorem}
+Let $(H,\,\langle \cdot, \cdot \rangle)$ be a Hilbert space and let $A$ be a compact, self-adjoint operator on $H$. Then $H$ has a complete ON-system (ON-basis) $(v_n)$ consisting of eigenvectors to $A$. Further
+\begin{equation}
+\label{spectralth}
+Ax = \sum_{n=1}^\infty \lambda_n \langle x, v_n \rangle v_n \;\; \forall x \in H, \lambda_n \text{ eigenvalue to } v_n.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+From the Hilbert-Schmidt theorem, we have an ON-sequence of eigenvectors $(u_n)$ with corresponding non-zero eigenvalues $(\lambda_n)$ of $A$. We need to complement this system with an arbitrary orthonormal basis of $\mathcal{N}(A)$. The eigenvalues corresponding to the vectors that form $\mathcal{N}(A)$ are all zero. Since $A$ is continuous, \eqref{spectralth} holds.
+\end{proof}
+
+\section{Existence of Green's function}
+First we introduce some notations.
+\begin{equation*}
+Lu = c_n u^{(n)} + \dots + c_0 u, \;\; u\in C^n (I).
+\end{equation*}
+\begin{equation*}
+\mathcal{N}(L) = \{u\in C^n(I) : Lu = 0\}, \;\; \mathcal{N}(L) \subset C^n(I) \text{ since } L \text{ linear}.
+\end{equation*}
+\begin{equation*}
+R_j u = \sum_{i=0}^{n-1} [ a_{i,j} u^{(i)} (a) + \beta_{i,j} u^{(i)}(b)],\; j=1,\dots, n.
+\end{equation*}
+
+\begin{theorem}
+Let $u_1, \dots, u_n$ be a basis for $\mathcal{N}(L)$ such that $\det(R_j u_k)_{1\leq j, k\leq n}\neq 0$. Let $G=L_0^{-1}$. Then
+\begin{equation*}
+\exists ! g(x,t) \text{ continuous}, (x,t)\in I\times I : (Gf)(x) = \int_I g(x,t)f(t)\id t.
+\end{equation*}
+The function $g$ is called Green's function and can be constrcuted as
+\begin{enumerate}
+\item Set $\tilde{e}(x,t) = \theta(x-t)e(x,t)$
+\item Determine $b_1, \dots, b_n \in C(I)$ such that
+\begin{equation*}
+g(x,t) = \tilde{e}(x,t) + \sum_{k=1}^n b_k(t) u_k(x)
+\end{equation*}
+satisfies
+\begin{equation*}
+R(g(\cdot,t)) = 0, a<t<b.
+\end{equation*}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Set $e(x,t) = \sum_{k=1}^n a_k(t)u_k(x)$ where $a_1(t),\dots, a_n(t)$ are chosen such that
+\begin{equation*}
+\begin{cases}
+     e_x^{k}(t,t) = 0, k=0,1,\dots, n-2 \\
+    e_x^{n-1}(t,t) = \frac{1}{c_n}.
+\end{cases}
+\end{equation*}
+Let
+\begin{equation*}
+\tilde{u}(x) = \int_I \tilde{e}(x,t)f(t)\id t, \text{ i.e. }\tilde{u}(x) = \int_a^x e(x,t)f(t)\id t.
+\end{equation*}
+Repeated differentiation gives
+\begin{equation*}
+\begin{split}
+&\tilde{u}'(x) = \int_a^x e'_x(x,t)f(t)\id t + \underbrace{e(x,x)}_{=0}f(x) \\
+&\vdots \\
+&\tilde{u}^{n-1}(x) = \int_a^x e^{n-1}_x(x,t)f(t) + \underbrace{e^{n-2}(x,x)}_{=0}f(x) \\
+& \tilde{u}^n(x) = \int_a^x e^n_x(x,t)f(t) + \dfrac{1}{c_n(t)}f(x).
+\end{split}
+\end{equation*}
+This implies that $L\tilde{u} = f$. Further
+\begin{equation*}
+u(x) = \int_I g(x,t)f(t)\id t \text{ satisfies } Lu = f,
+\end{equation*}
+since
+\begin{equation*}
+u(x) = \tilde{u}(x) + \sum_{k=1}^n u_k(x) \int_I b_k(t)f(t)\id t.
+\end{equation*}
+Finally observe
+\begin{equation*}
+Ru = \int_{a^+}^{b^-} \underbrace{R(g(\cdot, t))}_{=0} f(t)\id t = 0
+\end{equation*}
+\end{proof}
+
+\section{Theorem of ON-basis and solution to an BVP}
+\begin{theorem}
+Let $L_0$ be symmetric and a bijection. Let $(\mu_n)_{n=1}^\infty$ denote the eigenvalues for $L_0$ counted with multiplicity. Let $(e_n)_{n=1}^\infty$ be the corresponding sequence of orthonormal eigenfunctions. Then it holds that
+\begin{equation*}
+(e_n)_{n=1}^\infty \text{ ON-basis for } L^2(I)
+\end{equation*}
+and the equation
+\begin{equation*}
+\begin{cases}
+Lu = f \\
+Ru = 0
+\end{cases}
+\end{equation*}
+for $f\in C(I)$ has solution
+\begin{equation*}
+u = \sum_{n=1}^\infty \dfrac{1}{\mu_n} \langle f,e_n\rangle e_n \text{ in } L^2(I).
+\end{equation*}
+\end{theorem}
+
+\begin{proof}
+Define
+\begin{equation*}
+(Gf)(x) = \int_a^b g(x,t)f(t)\id t,\;\; f\in C(I)
+\end{equation*}
+\begin{equation*}
+(\tilde{G}f)(x) = \int_a^b g(x,t) f(t)\id t, \;\; f\in L^2(I).
+\end{equation*}
+We know $\tilde{G}$ is compact. $L_0$ symmetric and a bijection, thus $0$ is not an eigenvalue for $L_0$ nor $\tilde{G}$. Hilbert-Schmidt theorem thus gives us that $(e_n)_{n=1}^\infty$ is a complete ON sequence for $L^2(I)$. So
+\begin{equation*}
+f = \sum_{n=1}^\infty \langle f, e_n \rangle e_n \text{ in } L^2(I).
+\end{equation*}
+Thus $f$ is an eigenfunction for $L_0$ corresponding to eigenvalue $\mu_n$. Therefore $f$ is an eigenfunction for $\tilde{G}$ corresponding to $1/\mu_n$, i.e.
+\begin{equation*}
+u = Gf = \tilde{G}f = \sum_{n=1}^\infty \langle f_n, e_n\rangle \tilde{G}e_n = \sum_{n=1}^\infty \dfrac{1}{\mu_n}\langle f, e_n\rangle e_n \text{ in } L^2(I).
+\end{equation*}
+\end{proof}
+
+
+\section{Fredholm alternative for self-adjoint compact operators}
+\begin{theorem}
+Let $A$ be a self-adjoint compact operator on a Hilbert space $H$. Then the nonhomogeneous operator equation
+\begin{equation}
+    f=Af+\varphi\,,
+\label{5.12}
+\end{equation}
+has a unique solution for every $\varphi\in H$ if and only if the homogeneous equation
+\begin{equation}
+g=Ag
+\label{5.13}
+\end{equation}
+has only the trivial solution $g=0$. Moreover, if \eqref{5.12} has a solution, then $\langle\varphi,\,g\rangle=0$ for every solution $g$ of \eqref{5.13}.
+\end{theorem}
+\begin{proof}
+From spectral theorem for compact self-adjoint operators, $H$ has an orthonormal basis $(u_n)$ consisting of eigenvectors of $A$ with corresponding eigenvalues $\lambda_n$. Let $\varphi=\sum_{n=1}^\infty c_n u_n $, we seek a solution of \eqref{5.12}, in the form $f=\sum_{n=1}^\infty a_nu_n$. Hence we have
+\[
+    \sum_{n=1}^\infty a_nu_n=\sum_{n=1}^\infty a_n\lambda_nu_n+\sum_{n=1}^\infty c_nu_n\Rightarrow a_n=\dfrac{c_n}{1-\lambda_n}\forall n\in\N\,.
+\]
+Note that $\lambda=1$ is not an eigenvalue if \eqref{5.13} has no nonzero solution, thus the expression for $a_n$ is valid. Therefore, if \eqref{5.12} has a solution it must be unique and on the form
+\begin{equation}
+f=\sum_{n=1}^\infty \dfrac{c_n}{1-\lambda_n}u_n\,.
+\label{fredholm}
+\end{equation}
+To prove that \eqref{5.12} has a solution it suffices to show that \eqref{fredholm} is always convergent. Since $A$ compact and self-adjoint we have that $\lambda_n\to 0$ when $n\to\infty$. Thus
+\[
+    \exists M>0:\dfrac{1}{1-\lambda_n}\leq M\forall n\in\N\,.
+\]
+Therefore
+\[
+    \sum_{n=1}^\infty\left|\dfrac{c_n}{1-\lambda_n}\right|^2\leq M^2\sum_{n=1}^\infty |c_n|^2<\infty\,.
+\]
+Hence \eqref{fredholm} converges and its sum is a solution to \eqref{5.12}.
+\\\\
+Now assume \eqref{5.13} has a nontrivial solution $g$ and $f$ solves \eqref{5.12} then $f+cg$ is a solution to \eqref{5.12}, hence there is infinitely many solutions.
+\\\\
+Finally, assume $f$ and $g$ are solutions to \eqref{5.12} and \eqref{5.13} respectively. Then
+\[
+    \langle f,\,g\rangle=\langle Af,\,g\rangle+\langle\varphi,\,g\rangle=\langle f,\,Ag\rangle +\langle\varphi,\,g\rangle=\langle f,\,g\rangle+\langle\varphi,\,g\rangle\,.
+\]
+This gives $\langle\varphi,\,g\rangle=0$.
+\end{proof}
+\end{document}
